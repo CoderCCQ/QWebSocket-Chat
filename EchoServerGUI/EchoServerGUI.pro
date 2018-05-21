@@ -27,11 +27,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    echoclient.cpp
+    echoclient.cpp \
+    enterwindow.cpp
 
 HEADERS += \
         mainwindow.h \
-    echoclient.h
+    echoclient.h \
+    enterwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    enterwindow.ui \
+    enterwindow.ui

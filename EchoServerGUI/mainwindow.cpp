@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 //    client = new EchoClient(QUrl("ws://localhost:129"), true);
+
+    EnterWindow wnd;
+    wnd.exec();
+
     QString clientName = QInputDialog::getText(nullptr, "Авторизация", "Введите имя");
     client = new EchoClient(QUrl("ws://185.22.152.2:129"), true, clientName);
     connect(client, &EchoClient::newTextMessage, this, [this](QString message){

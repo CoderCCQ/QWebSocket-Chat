@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "echoclient.h"
 #include <QInputDialog>
+#include "enterwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,6 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
 
 private:
