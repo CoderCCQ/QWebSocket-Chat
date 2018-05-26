@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "ui_enterwindow.h"
+#include "echoclient.h"
+#include "registrationwindow.h"
 
 namespace Ui {
 class EnterWindow;
@@ -13,7 +15,7 @@ class EnterWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit EnterWindow(QWidget *parent = 0);
+    explicit EnterWindow(EchoClient *client = 0, QWidget *parent = 0);
     ~EnterWindow();
     QString getLogin();
 
@@ -26,6 +28,7 @@ private slots:
 
 private:
     Ui::EnterWindow *ui;
+    EchoClient *client;
 };
 
 #endif // ENTERWINDOW_H

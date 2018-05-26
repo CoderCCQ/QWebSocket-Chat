@@ -89,6 +89,11 @@ void EchoClient::requestCurrentUsers()
     QJsonDocument doc(json);
     m_webSocket.sendBinaryMessage(doc.toJson());
 }
+
+void EchoClient::requestNewRegistration(QString login, QString password)
+{
+
+}
 //! [constructor]
 
 //! [onConnected]

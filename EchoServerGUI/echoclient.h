@@ -71,12 +71,14 @@ public:
 
     void requestChatHistory();
     void requestCurrentUsers();
+    void requestNewRegistration(QString login, QString password);
 
 Q_SIGNALS:
     void closed();
     void newTextMessage(QString);
     void gotCurrentUsers(QList<QString>);
     void gotHistory(QList<QString>);
+    void registrationRequestAnswer()
 
 private Q_SLOTS:
     void onConnected();

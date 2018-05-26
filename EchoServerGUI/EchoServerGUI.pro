@@ -28,14 +28,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     echoclient.cpp \
-    enterwindow.cpp
+    enterwindow.cpp \
+    registrationwindow.cpp
 
 HEADERS += \
         mainwindow.h \
     echoclient.h \
-    enterwindow.h
+    enterwindow.h \
+    registrationwindow.h
 
 FORMS += \
         mainwindow.ui \
     enterwindow.ui \
-    enterwindow.ui
+    enterwindow.ui \
+    registrationwindow.ui

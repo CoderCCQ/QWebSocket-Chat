@@ -10,11 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 //    client = new EchoClient(QUrl("ws://localhost:129"), true);
 
+    client = new EchoClient(QUrl("ws://185.22.152.2:129"), true, clientName);
     EnterWindow wnd;
     wnd.exec();
 
-    QString clientName = QInputDialog::getText(nullptr, "Авторизация", "Введите имя");
-    client = new EchoClient(QUrl("ws://185.22.152.2:129"), true, clientName);
+//    QString clientName = QInputDialog::getText(nullptr, "Авторизация", "Введите имя");
+    QString clientName = wnd.getLogin();
     connect(client, &EchoClient::newTextMessage, this, [this](QString message){
         ui->textEdit->insertPlainText(message + "\n");
     });

@@ -1,12 +1,13 @@
 #include "enterwindow.h"
 
-EnterWindow::EnterWindow(QWidget *parent) :
+EnterWindow::EnterWindow(EchoClient *client, QWidget *parent) :
+    client(client),
     QDialog(parent),
     ui(new Ui::EnterWindow)
 {
     ui->setupUi(this);
     setWindowTitle("Авторизация");
-    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+    setWindowFlags(Qt::WindowCloseButtonHint);
     setFixedSize(this->size());
 }
 
@@ -29,5 +30,9 @@ void EnterWindow::on_pushButton_clicked()
 void EnterWindow::on_pushButton_2_clicked()
 {
     clickedOk = false;
+
+    RegistrationWindow registrationWindow;
+    window
+
     close();
 }
