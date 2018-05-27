@@ -51,10 +51,12 @@
 #define ECHOCLIENT_H
 
 #include <QtCore/QObject>
-#include <QtWebSockets/QWebSocket>
+//#include <QtWebSockets/QWebSocket>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QWebSocket>
+#include <QThread>
 
 class EchoClient : public QObject
 {
@@ -69,16 +71,18 @@ public:
         return name;
     }
 
+    void logIn(QString login, QString password);
     void requestChatHistory();
     void requestCurrentUsers();
     void requestNewRegistration(QString login, QString password);
+    bool isConneted();
 
 Q_SIGNALS:
     void closed();
     void newTextMessage(QString);
     void gotCurrentUsers(QList<QString>);
     void gotHistory(QList<QString>);
-    void registrationRequestAnswer()
+    void registrationRequestAnswered(QString, QString);
 
 private Q_SLOTS:
     void onConnected();
@@ -87,11 +91,11 @@ private Q_SLOTS:
     void socketDisconnected();
 
 private:
-    QWebSocket m_webSocket;
     QUrl m_url;
-    bool m_debug;
-
     QString name = "you";
+    bool m_debug;
+    QWebSocket m_webSocket;
+
 };
 
 #endif // ECHOCLIENT_H

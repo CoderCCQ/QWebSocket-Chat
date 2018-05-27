@@ -19,7 +19,7 @@ public:
     ~EnterWindow();
     QString getLogin();
 
-    bool clickedOk;
+    bool clickedOk = false;
 
 private slots:
     void on_pushButton_clicked();
@@ -27,8 +27,8 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    Ui::EnterWindow *ui;
     EchoClient *client;
+    Ui::EnterWindow *ui;
 };
 
 #endif // ENTERWINDOW_H

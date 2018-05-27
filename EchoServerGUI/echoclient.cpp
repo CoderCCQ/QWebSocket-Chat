@@ -63,6 +63,13 @@ EchoClient::EchoClient(const QUrl &url, bool debug, QString clientName, QObject 
         qDebug() << "WebSocket server:" << url;
     connect(&m_webSocket, &QWebSocket::connected, this, &EchoClient::onConnected);
     connect(&m_webSocket, &QWebSocket::disconnected, this, &EchoClient::closed);
+    connect(&m_webSocket, &QWebSocket::textMessageReceived,
+            this, &EchoClient::onTextMessageReceived);
+    connect(&m_webSocket, &QWebSocket::binaryMessageReceived,
+            this, &EchoClient::onBinaryMessageReceived);
+    QObject::connect(&m_webSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), this, [](QAbstractSocket::SocketError error) {
+        qDebug() << "ERRRRRRRRRRRRRRRRRRRRRROR";
+    });
     m_webSocket.open(QUrl(url));
 }
 
@@ -70,6 +77,14 @@ void EchoClient::sendTextMessage(QString message)
 {
     QJsonObject json;
     json["textMessage"] = QJsonArray() << name << message;
+    QJsonDocument doc(json);
+    m_webSocket.sendBinaryMessage(doc.toJson());
+}
+
+void EchoClient::logIn(QString login, QString password)
+{
+    QJsonObject json;
+    json["loginIn"] = QJsonArray() << login << password;
     QJsonDocument doc(json);
     m_webSocket.sendBinaryMessage(doc.toJson());
 }
@@ -92,7 +107,15 @@ void EchoClient::requestCurrentUsers()
 
 void EchoClient::requestNewRegistration(QString login, QString password)
 {
+    QJsonObject json;
+    json["newRegistration"] = QJsonArray() << login << password;
+    QJsonDocument doc(json);
+    m_webSocket.sendBinaryMessage(doc.toJson());
+}
 
+bool EchoClient::isConneted()
+{
+    return m_webSocket.isValid();
 }
 //! [constructor]
 
@@ -101,19 +124,6 @@ void EchoClient::onConnected()
 {
     if (m_debug)
         qDebug() << "WebSocket connected";
-
-    QJsonObject json;
-    json["loginIn"] = QJsonArray() << name;
-    QJsonDocument doc(json);
-    m_webSocket.sendBinaryMessage(doc.toJson());
-
-    connect(&m_webSocket, &QWebSocket::textMessageReceived,
-            this, &EchoClient::onTextMessageReceived);
-    connect(&m_webSocket, &QWebSocket::binaryMessageReceived,
-            this, &EchoClient::onBinaryMessageReceived);
-    /*
-    connect(&m_webSocket, &QWebSocket::disconnected,
-            this, &EchoClient::socketDisconnected);*/
 }
 //! [onConnected]
 
@@ -121,7 +131,7 @@ void EchoClient::onConnected()
 void EchoClient::onTextMessageReceived(QString message)
 {
     if (m_debug)
-        qDebug() << "Message received:" << message;
+        qDebug() << "Text message received:" << message;
 
     newTextMessage(message);
 
@@ -147,6 +157,20 @@ void EchoClient::onBinaryMessageReceived(QByteArray message)
             list.push_back(k.toString());
         }
         gotHistory(list);
+    }
+    else if (json.contains("registration"))
+    {
+        QList<QString> list;
+        foreach (auto k, json["registration"].toArray()) {
+            list.push_back(k.toString());
+        }
+        QString login, message;
+        if (list.size() >= 2)
+        {
+            login = list.at(0);
+            message = list.at(1);
+        }
+        registrationRequestAnswered(login, message);
     }
 }
 

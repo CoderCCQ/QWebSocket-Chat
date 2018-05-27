@@ -8,14 +8,29 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setFixedSize(this->size());
 //    client = new EchoClient(QUrl("ws://localhost:129"), true);
 
-    client = new EchoClient(QUrl("ws://185.22.152.2:129"), true, clientName);
+    client = new EchoClient(QUrl("ws://185.22.152.2:129"), true);
+    /*
+    while (!client->isConneted())
+    {
+        QMessageBox box;
+        box.setText("Сервер не отвечает, попробовать переподключиться?");
+        box.setWindowTitle("Ошибка подключения");
+        QAbstractButton *myYesButton = box.addButton("Переподключиться", QMessageBox::YesRole);
+        box.addButton("Выход", QMessageBox::NoRole);
+        box.exec();
+        if (box.clickedButton() != myYesButton)
+            exit(2);
+    }
+    */
     EnterWindow wnd;
     wnd.exec();
 
 //    QString clientName = QInputDialog::getText(nullptr, "Авторизация", "Введите имя");
     QString clientName = wnd.getLogin();
+    client->setName(clientName);
     connect(client, &EchoClient::newTextMessage, this, [this](QString message){
         ui->textEdit->insertPlainText(message + "\n");
     });

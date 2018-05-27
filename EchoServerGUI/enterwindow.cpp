@@ -9,6 +9,7 @@ EnterWindow::EnterWindow(EchoClient *client, QWidget *parent) :
     setWindowTitle("Авторизация");
     setWindowFlags(Qt::WindowCloseButtonHint);
     setFixedSize(this->size());
+    ui->lineEdit->setFocus();
 }
 
 EnterWindow::~EnterWindow()
@@ -24,15 +25,15 @@ QString EnterWindow::getLogin()
 void EnterWindow::on_pushButton_clicked()
 {
     clickedOk = true;
+    client->logIn(ui->lineEdit->text(), ui->lineEdit_2->text());
     close();
 }
 
 void EnterWindow::on_pushButton_2_clicked()
 {
-    clickedOk = false;
-
     RegistrationWindow registrationWindow;
-    window
+    registrationWindow.exec();
+//    window
 
     close();
 }

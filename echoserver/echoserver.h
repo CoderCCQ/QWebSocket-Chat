@@ -80,6 +80,7 @@ private Q_SLOTS:
     void loginIn(QObject *sender, const QJsonObject &json);
     void getCurrentUsers(QObject *sender, const QJsonObject &json);
     void getHistory(QObject *sender, const QJsonObject &json);
+    void newRegistration(QObject *sender, const QJsonObject &json);
 
 private:
     QWebSocketServer *m_pWebSocketServer;

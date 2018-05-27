@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "echoclient.h"
+#include <QTimer>
 
 namespace Ui {
 class RegistrationWindow;
@@ -17,11 +18,13 @@ public:
     ~RegistrationWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void onRegistrationRequestAnswered(QString login, QString message);
+
+    void on_registrationButton_clicked();
 
 private:
-    Ui::RegistrationWindow *ui;
     EchoClient *client;
+    Ui::RegistrationWindow *ui;
 };
 
 #endif // REGISTRATIONWINDOW_H

@@ -5,6 +5,7 @@
 #include "echoclient.h"
 #include <QInputDialog>
 #include "enterwindow.h"
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;

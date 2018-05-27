@@ -128,6 +128,8 @@ void EchoServer::processBinaryMessage(QByteArray message)
         getCurrentUsers(sender(), json);
     else if (json.contains("getHistory"))
         getHistory(sender(), json);
+    else if (json.contains("newRegistration"))
+        newRegistration(sender(), json);
 }
 //! [processBinaryMessage]
 
@@ -161,10 +163,11 @@ void EchoServer::textMessage(QObject *sender, const QJsonObject &json)
 
 void EchoServer::loginIn(QObject *sender, const QJsonObject &json)
 {
-    QString name = json["loginIn"].toArray().at(0).toString();
+    QString login = json["loginIn"].toArray().at(0).toString();
+    QString password = json["loginIn"].toArray().at(1).toString();
     QWebSocket *p = qobject_cast<QWebSocket *>(sender);
     if (p)
-        currentUsers[p] = name;
+        currentUsers[p] = login;
 }
 
 void EchoServer::getCurrentUsers(QObject *sender, const QJsonObject &json)
@@ -200,6 +203,19 @@ void EchoServer::getHistory(QObject *sender, const QJsonObject &json)
         QJsonDocument doc(json);
         qDebug() << json;
         pClient->sendBinaryMessage(doc.toJson());
+    }
+}
+
+void EchoServer::newRegistration(QObject *sender, const QJsonObject &json)
+{
+    QWebSocket *pClient = qobject_cast<QWebSocket *>(sender);
+    if (pClient)
+    {
+        QJsonObject json;
+        QJsonArray array;
+        if (true) // if account OK
+            array <<
+        json["registration"] = array;
     }
 }
 //! [socketDisconnected]
